@@ -1,0 +1,6 @@
+# Core UI & runtime
+gradio==4.44.1
+google-generativeai==0.8.3
+agno>=1.7.5 
+reportlab==4.2.2
+python-dotenv==1.0.0
