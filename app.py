@@ -5,6 +5,9 @@ import tempfile
 from datetime import datetime
 from typing import Tuple
 
+import shutil
+from pathlib import Path
+
 import gradio as gr
 import google.generativeai as genai
 from reportlab.lib.pagesizes import letter
@@ -161,16 +164,11 @@ def create_pdf_report(report_data: dict) -> str:
     return temp_file.name
 
 def create_json_report(report_data: dict) -> str:
-    """
-    Creates a JSON report from the parsed report data and saves it to a temporary file.
-    
-    Args:
-        report_data: Dictionary containing report sections
-    
-    Returns:
-        Path to the temporary JSON file
-    """
-    # Create the JSON structure
+    # Where you want finished files to live
+    SHARED_DIR = Path("./scan_outputs")
+    SHARED_DIR.mkdir(exist_ok=True)
+
+    # Build JSON payload
     json_data = {
         "report_id": str(uuid.uuid4()),
         "date": datetime.now().strftime("%Y-%m-%d"),
@@ -178,15 +176,15 @@ def create_json_report(report_data: dict) -> str:
         "findings": report_data['findings'],
         "recommendations": report_data['recommendations']
     }
-    
-    # Create temporary file
-    temp_file = tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.json', encoding='utf-8')
-    
-    # Write JSON data
-    json.dump(json_data, temp_file, indent=2, ensure_ascii=False)
-    temp_file.close()
-    
-    return temp_file.name
+
+    # Final destination path
+    json_dest = SHARED_DIR / f"{datetime.now():%Y%m%dT%H%M%S}.json"
+
+    # Write directly to the destination (no temp file needed)
+    with open(json_dest, "w", encoding="utf-8") as f:
+        json.dump(json_data, f, indent=2, ensure_ascii=False)
+
+    return str(json_dest) 
 
 def run_scan() -> Tuple[str, str]:
     """

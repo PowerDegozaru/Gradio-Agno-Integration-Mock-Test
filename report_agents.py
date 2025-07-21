@@ -12,6 +12,8 @@ from agno.agent import Agent
 from agno.models.google import Gemini   # or agno.models.openai import OpenAI, etc.
 from agno.tools.duckduckgo import DuckDuckGoTools
 
+from report_merge_tool import merge_scan_reports
+
 # --------------------------------------------------------------------------- #
 # Environment / API keys
 # --------------------------------------------------------------------------- #
@@ -29,9 +31,14 @@ report_agent = Agent(
         grounding=True,
         search=True,
     ),
-    tools=[DuckDuckGoTools()],
+    tools=[
+        DuckDuckGoTools(),
+        merge_scan_reports,          
+    ],
     show_tool_calls=True,
     instructions=[
+        "When the user asks to merge or summarise scan outputs, call merge_scan_reports.",
+        "Return direct download paths for the PDF and JSON artefacts.",
         "Write clear, concise analytical reports.",
         "Always cite your sources."
     ],
