@@ -1,0 +1,7 @@
+{
+  "report_id": "c8b199bb-5a8a-4c19-b11f-404c9548cf64",
+  "date": "2025-07-30",
+  "summary": "This is a mock security scan report generated as a fallback. The system encountered an API issue: \n  No API_KEY or ADC found. Please either:\n    - Set the `GOOGLE_API_KEY` environment variable.\n    - Manually pass the key with `genai.configure(api_key=my_api_key)`.\n    - Or set up Application Default Credentials, see https://ai.google.dev/gemini-api/docs/oauth for more information.",
+  "findings": "- No critical vulnerabilities detected in fallback mode\n- System appears to be functioning within normal parameters\n- Recommend running actual scan when API connectivity is restored",
+  "recommendations": "NS  \n- Verify API configuration and connectivity\n- Re-run scan with proper API access\n- Implement monitoring for API availability"
+}
